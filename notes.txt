@@ -1,0 +1,5 @@
+http://www.reddit.com/r/golang/comments/28jkq8/web_framework_for_building_a_restful_api_server/ net/http and gorilla/mux
+http://www.gorillatoolkit.org/
+how to write go https://golang.org/doc/code.html
+http://www.reddit.com/r/golang/comments/25oxg0/three_reasons_you_should_not_use_martini/
+https://talks.golang.org/2012/10things.slide#1 about go
