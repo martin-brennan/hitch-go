@@ -9,7 +9,7 @@ import (
 )
 
 type Issue struct {
-  Id int
+  Id int `json:"id"`
   Title string
   Description string
   Description_output string
@@ -18,6 +18,8 @@ type Issue struct {
 }
 
 func main() {
+  start := time.Now()
+
   connection, err := sql.Open("mysql", "root:root@tcp(127.0.0.1:3306)/hitch?parseTime=true")
   defer connection.Close()
 
@@ -35,5 +37,8 @@ func main() {
 
   response, err := json.Marshal(issue)
 
+  elapsed := time.Since(start)
+
   fmt.Println(string(response))
+  fmt.Println(elapsed)
 }
