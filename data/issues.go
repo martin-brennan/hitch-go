@@ -8,19 +8,19 @@ import (
 )
 
 var Issues = struct {
-  Get func(int) (*models.Issue)
-  All func() ([]*models.Issue)
+  Get func(int) (*models.Issue, error)
+  All func() ([]*models.Issue, error)
 }{
   Get: GetIssue,
   All: AllIssues,
 }
 
-func GetIssue(id int) (*models.Issue) {
+func GetIssue(id int) (*models.Issue, error) {
   connection, err := sql.Open("mysql", config.Config.ConnectionString)
   defer connection.Close()
 
   if err != nil {
-    panic(err)
+    return nil, err
   }
 
   i := new(models.Issue)
@@ -28,13 +28,13 @@ func GetIssue(id int) (*models.Issue) {
   scanerr := row.Scan(&i.Id, &i.Title, &i.Description, &i.Description_Output, &i.Created, &i.Modified)
 
   if scanerr != nil {
-    panic(scanerr)
+    return nil, scanerr
   }
 
-  return i
+  return i, nil
 }
 
-func AllIssues() ([]*models.Issue) {
+func AllIssues() ([]*models.Issue, error) {
   var issues []*models.Issue
 
   connection, err := sql.Open("mysql", config.Config.ConnectionString)
@@ -62,6 +62,9 @@ func AllIssues() ([]*models.Issue) {
     issues = append(issues, issue)
   }
   err = rows.Err()
+  if err != nil {
+    return nil, err
+  }
 
-  return issues
+  return issues, nil
 }
