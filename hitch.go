@@ -1,16 +1,18 @@
 package main
 
 import (
-  "github.com/gorilla/mux"
+  "log"
   "net/http"
+
+  "github.com/julienschmidt/httprouter"
 
   "github.com/martin-brennan/hitch/controllers"
 )
 
 func main()  {
-  router := mux.NewRouter()
-  router.HandleFunc("/issue", controllers.Issues.All).Methods("GET")
-  router.HandleFunc("/issue/{id}", controllers.Issues.Get).Methods("GET")
+  router := httprouter.New()
+  router.GET("/issue", controllers.Issues.All)
+  router.GET("/issue/:id", controllers.Issues.Get)
 
-  http.ListenAndServe(":4556", router)
+  log.Fatal(http.ListenAndServe(":4556", router))
 }
