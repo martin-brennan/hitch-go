@@ -23,13 +23,13 @@ func Get(w http.ResponseWriter, r *http.Request) {
   params := mux.Vars(r)
   id, err := strconv.Atoi(params["id"])
   if err != nil {
-    hitch_error.RaiseCustomError(w, params["id"] + " is not a valid id", 400)
+    hitchError.RaiseCustomError(w, params["id"] + " is not a valid id", 400)
     return
   }
 
   issue, err := data.Issues.Get(id)
   if err != nil {
-    hitch_error.RaiseError(w, err)
+    hitchError.RaiseError(w, err)
     return
   }
 
@@ -42,7 +42,7 @@ func Get(w http.ResponseWriter, r *http.Request) {
 func All(w http.ResponseWriter, r *http.Request) {
   issues, err := data.Issues.All()
   if err != nil {
-    hitch_error.RaiseError(w, err)
+    hitchError.RaiseError(w, err)
     return
   }
 
