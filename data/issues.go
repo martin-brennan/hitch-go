@@ -16,7 +16,7 @@ var Issues = struct {
 }
 
 func GetIssue(id int) (*models.Issue, error) {
-  connection, err := sql.Open("mysql", config.Config.ConnectionString)
+  connection, err := sql.Open("mysql", config.Config["ConnectionString"])
   defer connection.Close()
 
   if err != nil {
@@ -37,7 +37,7 @@ func GetIssue(id int) (*models.Issue, error) {
 func AllIssues() ([]*models.Issue, error) {
   var issues []*models.Issue
 
-  connection, err := sql.Open("mysql", config.Config.ConnectionString)
+  connection, err := sql.Open("mysql", config.Config["ConnectionString"])
   defer connection.Close()
 
   if err != nil {
