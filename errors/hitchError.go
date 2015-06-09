@@ -3,17 +3,22 @@ package hitchError
 import (
   "net/http"
   "encoding/json"
-  "fmt"
 )
 
+// ErrorData represents a JSON error message returned from the API
+// for all 4-- and 5-- responses .
 type ErrorData struct {
   Code int `json:"code"`
   Message string `json:"message"`
   ErrorMessage string `json:"error_message"`
 }
 
+// ErrorType is just a map of string representations of errors against
+// ErrorData structs with friendly error messages e.g. sql: no rows is
+// a 404 error with the message 'record not found'
 var ErrorType = make(map[string]ErrorData)
 
+// init sets up the ErrorType map entries
 func init() {
   ErrorType["sql: no rows in result set"] = ErrorData{Code: 404, Message: "record not found", ErrorMessage: "sql: no rows in result set"}
 }
@@ -21,7 +26,6 @@ func init() {
 // RaiseError responds with an ErrorData struct from the ErrorType
 // map of string to ErrorData, based on the err message.
 func RaiseError(w http.ResponseWriter, err error) {
-  fmt.Println(ErrorType)
   errorData := ErrorType[err.Error()]
   ErrorResponse(w, errorData)
 }

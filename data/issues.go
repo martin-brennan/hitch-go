@@ -2,11 +2,17 @@ package data
 
 import (
   "database/sql"
+
+  // this is done because the compiler thinks it's not used,
+  // when it is used in the call sql.Open("mysql")
   _ "github.com/go-sql-driver/mysql"
+
   "github.com/martin-brennan/hitch/config"
   "github.com/martin-brennan/hitch/models"
 )
 
+// Issues struct exposes the GetIssue and AllIssues
+// methods for access like data.Issues.MethodName
 var Issues = struct {
   Get func(int) (*models.Issue, error)
   All func() ([]*models.Issue, error)
