@@ -12,8 +12,8 @@ import (
 
 func main()  {
   router := httprouter.New()
-  router.GET("/issue", middleware.Logger(controllers.Issues.All))
-  router.GET("/issue/:id", controllers.Issues.Get)
+  router.GET("/issue", middleware.HitchMiddleware(controllers.Issues.All))
+  router.GET("/issue/:id", middleware.Logger(controllers.Issues.Get))
 
   log.Fatal(http.ListenAndServe(":4556", router))
 }

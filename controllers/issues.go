@@ -9,6 +9,7 @@ import (
 
   "github.com/martin-brennan/hitch/data"
   "github.com/martin-brennan/hitch/errors"
+  "github.com/martin-brennan/hitch/middleware"
 )
 
 var Issues = struct {
@@ -34,8 +35,7 @@ func Get(w http.ResponseWriter, r *http.Request, params httprouter.Params) {
 
   response, err := json.Marshal(issue)
 
-  w.Header().Set("Content-Type", "application/json")
-  w.Write(response)
+  middleware.FinalizeRequest(w, r, response, "application/json", 200)
 }
 
 func All(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -47,6 +47,5 @@ func All(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 
   response, err := json.Marshal(issues)
 
-  w.Header().Set("Content-Type", "application/json")
-  w.Write(response)
+  middleware.FinalizeRequest(w, r, response, "application/json", 200)
 }
