@@ -9,16 +9,16 @@ import (
   "github.com/martin-brennan/hitch/errors"
 )
 
-func Logger(h httprouter.Handle) httprouter.Handle {
+func Logger(handler httprouter.Handle) httprouter.Handle {
   return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
     log.Printf("[%s] %s", r.Method, r.URL.String())
 
-    h(w, r, ps)
+    handler(w, r, ps)
     return
   }
 }
 
-func Auth(h httprouter.Handle) httprouter.Handle {
+func Auth(handler httprouter.Handle) httprouter.Handle {
   return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
     if w.Header().Get("Authentication") == "" {
@@ -27,16 +27,14 @@ func Auth(h httprouter.Handle) httprouter.Handle {
       return
     }
 
-    log.Println("wooo")
-
-    h(w, r, ps)
+    handler(w, r, ps)
     return
   }
 }
 
-func HitchMiddleware(h httprouter.Handle) httprouter.Handle {
+func HitchMiddleware(handler httprouter.Handle) httprouter.Handle {
   return func(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-    Logger(Auth(h))(w, r, ps)
+    Logger(Auth(handler))(w, r, ps)
     return
   }
 }
