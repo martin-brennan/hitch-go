@@ -27,6 +27,14 @@ func init() {
 // map of string to ErrorData, based on the err message.
 func RaiseError(w http.ResponseWriter, err error) {
   errorData := ErrorType[err.Error()]
+
+  // raise a custom error if not found in the map
+  if errorData.Code == 0 {
+    RaiseCustomError(w, err.Error(), 500)
+    return
+  }
+
+  // otherwise continue with the error output
   ErrorResponse(w, errorData)
 }
 

@@ -12,6 +12,7 @@ import (
 
 func main()  {
   router := httprouter.New()
+  router.POST("/issue", middleware.Logger(controllers.Issues.Add))
   router.GET("/issue", middleware.HitchMiddleware(controllers.Issues.All))
   router.GET("/issue/:id", middleware.Logger(controllers.Issues.Get))
 
